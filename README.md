@@ -66,15 +66,76 @@
 
 1. run
 
+    > docker run [OPTION] <DOCKER_IMAGE>
+
+    ex:
+
     ```zsh
-    docker run --name ws -p 8080:80 httpd
-    
+    docker run --name ws -p 8000:80 -v ~/Documents/42/inception/src:/usr/local/apache2/htdocs httpd
     ```
     
-    - `--name <name>` : define container name
+    - `--name <CONTAINER_NAME>` : define container name
 
-    - -`p <port>:<port>`:
+    - `-p <HOST_PORT>:<CONTAINER_PORT>`:
         - define port forwarding: in this exemple, when host receive a request to 8080 port, redirect this req to 80 port in ws container.
+
+    - `-v <HOST_FILE_SYSYEM>:<CONTAINER_FILE_SYSTEM>`:
+        - link HOST FS and CONTAINER FS
+        - Thanks for this, you can edit FS in container from host.
+
+2. logs
+
+    > docker logs [OPTION] <CONTAINER>
+
+
+    ex:
+
+    ```zsh
+    docker logs -f ws3
+    ```
+
+    - `-f` : follow log output(like watch in nodemon)
+
+
+3. exec
+
+    > docker exec [OPTION] <CONTAINER> <COMMAND>
+
+    ex01: access to current container then execute one command
+
+    ```zsh
+    docker exec ws2 pwd #usr/local/appach2
+    ```
+
+    ex02: open interactive shell(`bash`, `sh` ou `zsh` if container has it) in current container
+    
+    ```zsh
+    docker exec -it ws2 bash
+    
+    root@27290926ed14:/usr/local/apache2# pwd
+    /usr/local/apache2
+
+    ```
+       - `-i` : interactive, keep STDIN open even if not attached
+       - `-t` : Allocate a pseudo TTY
+
+4. start
+
+    > docker start <CONTAINER>
+
+5. stop
+
+    > docker stop <CONTAINER>
+
+6. remove container
+
+    > docker rm <CONTAINER>
+
+
+7. remove image
+
+    > docker rmi <DOCKER_IMAGE>
+
     
 
 
