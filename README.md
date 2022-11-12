@@ -36,12 +36,7 @@
 
     - other is normal user
 
-
-
-
-
-
-2. DO NOT use:
+3. DO NOT use:
 
     - hacky patch(not recommanded)
 
@@ -64,6 +59,8 @@
 
 ## Theory
 
+### Base commands
+
 1. run
 
     > docker run [OPTION] <DOCKER_IMAGE>
@@ -77,7 +74,7 @@
     - `--name <CONTAINER_NAME>` : define container name
 
     - `-p <HOST_PORT>:<CONTAINER_PORT>`:
-        - define port forwarding: in this exemple, when host receive a request to 8080 port, redirect this req to 80 port in ws container.
+        - define port forwarding: in this exemple, when host receive a request to 8000 port, redirect this req to 80 port in ws container.
 
     - `-v <HOST_FILE_SYSYEM>:<CONTAINER_FILE_SYSTEM>`:
         - link HOST FS and CONTAINER FS
@@ -116,8 +113,8 @@
     /usr/local/apache2
 
     ```
-       - `-i` : interactive, keep STDIN open even if not attached
-       - `-t` : Allocate a pseudo TTY
+    - `-i` : interactive, keep STDIN open even if not attached
+    - `-t` : Allocate a pseudo TTY
 
 4. start
 
@@ -136,14 +133,58 @@
 
     > docker rmi <DOCKER_IMAGE>
 
-    
+
+### Dockerfile & build
+
+```
+|------------|
+| Dockerfile |
+|------------|
+        |
+        | build 
+        v
+|--------------|
+| DOCKER_IMAGE |
+|--------------|
+    |   ^
+run |   | commit
+    v   |
+|------------------|
+| DOCKER_CONTAINER |
+|------------------|
+```
+
+- Dockerfile
+
+```Dockerfile
+FROM ubuntu
+RUN apt update && apt install -y python3
+WORKDIR /var/www/
+COPY ["src/index.html", "."]
+CMD [ "python3", "-u", "-m", "http.server" ]
+```
+   - `FROM` : reference image
+   - `RUN` : command to execute on `build` - on image
+   - `WORKDIR` : move to this directory on `build` (if not exist, create it)
+   - `COPY` : copy src file to dst path
+   - `CMD` : command to execute on `container`
+
+
+- Build command
+
+```bash
+docker build -t web-server .; # build docker image from Dockerfile
+docker rm --force ws; # when container exist, remove old container
+docker run --name ws -p 8888:8000 web-server; # create/run container from docker image.
+```
+
+
+- docker-compose 
+<img src="./docker-compose_example.png" />
 
 
 ### ETC
 
 
 ### Reference
-
-```
-
-```
+- [docker-compose by Egoing](https://www.youtube.com/watch?v=EK6iYRCIjYs "Egoing docker-compose class")
