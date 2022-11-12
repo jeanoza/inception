@@ -64,7 +64,18 @@
 
 ## Theory
 
-- T1
+1. run
+
+    ```zsh
+    docker run --name ws -p 8080:80 httpd
+    
+    ```
+    
+    - `--name <name>` : define container name
+
+    - -`p <port>:<port>`:
+        - define port forwarding: in this exemple, when host receive a request to 8080 port, redirect this req to 80 port in ws container.
+    
 
 
 ### ETC
