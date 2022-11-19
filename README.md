@@ -205,7 +205,7 @@ docker run --name ws -p 8888:8000 web-server; # create/run container from docker
 
 ### ETC
 
--Packages:
+- Packages:
 
    - nginx container:
       - nginx
