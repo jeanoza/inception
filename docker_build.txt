@@ -1,3 +1,0 @@
-docker build -t web-server .;
-docker rm --force ws;
-docker run --name ws -p 8888:8000 web-server;

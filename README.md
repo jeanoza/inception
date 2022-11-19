@@ -12,18 +12,18 @@
 
 - Docker Containers:
     
-    - NGINX, TLSv1.2(ou 1.3)
+	- NGINX, TLSv1.2(ou 1.3)
 
-    - WordPress + php-fpm(installed and configured)
+	- WordPress + php-fpm(installed and configured)
 
-    - MariaDB without Nginx
+	- MariaDB without Nginx
 
 - Volume
 
-    - WordPress Database
+	- WordPress Database
 
-    - WordPress Files
-    
+	- WordPress Files
+	
 - Docker-network: bind the containers.
 
 ### Subject
@@ -32,28 +32,33 @@
 
 2. Two user in WordPress DB
 
-    - one is `Admin` (username doesn't contains hint of administrator like admin-123 ... etc)
+	- one is `Admin` (username doesn't contains hint of administrator like admin-123 ... etc)
 
-    - other is normal user
+	- other is normal user
 
 3. DO NOT use:
 
-    - hacky patch(not recommanded)
 
-    - host, --link, links
-            
-        > `network` must be defined in `docker-compose.yml`
+	- Dockerhub images like: Wordpress, nginx... etc
+		
+		=> Use only `Alpine` or `Debian` image
 
-    - `infinity loop` such as while true...
+	- hacky patch(not recommanded)
+
+	- host, --link, links
+			
+		> `network` must be defined in `docker-compose.yml`
+
+	- `infinity loop` such as while true...
 
 
 ## Program
 
 1.  S1
 
-    1-1. S1-1
+	1-1. S1-1
 
-    1-1-1. S1-1-1
+	1-1-1. S1-1-1
 
 2.  S2
 
@@ -61,77 +66,92 @@
 
 ### Base commands
 
+0. pull
+
+	> docker pull [DOCKER_IMAGE]
+	
+	```zsh
+	docker pull debian # download docker image from dockerhub
+	```
+
 1. run
 
-    > docker run [OPTION] <DOCKER_IMAGE>
+	> docker run [OPTION] <DOCKER_IMAGE>
 
-    ex:
+	ex:
+	```zsh
+	docker pull debian # download docker image from dockerhub
+	docker run -it debian	# run debian image with interactive mode
+	```
 
-    ```zsh
-    docker run --name ws -p 8000:80 -v ~/Documents/42/inception/src:/usr/local/apache2/htdocs httpd
-    ```
-    
-    - `--name <CONTAINER_NAME>` : define container name
+	```zsh
+	docker run --name ws -p 8000:80 -v ~/Documents/42/inception/src:/usr/local/apache2/htdocs httpd
+	```
+	
+	- `--name <CONTAINER_NAME>` : define container name
 
-    - `-p <HOST_PORT>:<CONTAINER_PORT>`:
-        - define port forwarding: in this exemple, when host receive a request to 8000 port, redirect this req to 80 port in ws container.
+	- `-p <HOST_PORT>:<CONTAINER_PORT>`:
+		- define port forwarding: in this exemple, when host receive a request to 8000 port, redirect this req to 80 port in ws container.
 
-    - `-v <HOST_FILE_SYSYEM>:<CONTAINER_FILE_SYSTEM>`:
-        - link HOST FS and CONTAINER FS
-        - Thanks for this, you can edit FS in container from host.
+	- `-v <HOST_FILE_SYSYEM>:<CONTAINER_FILE_SYSTEM>`:
+		- link HOST FS and CONTAINER FS
+		- Thanks for this, you can edit FS in container from host.
+
+	- `-i` : interactive mode
+
 
 2. logs
 
-    > docker logs [OPTION] <CONTAINER>
+	> docker logs [OPTION] <CONTAINER>
 
 
-    ex:
+	ex:
 
-    ```zsh
-    docker logs -f ws3
-    ```
+	```zsh
+	docker logs -f ws3
+	```
 
-    - `-f` : follow log output(like watch in nodemon)
+	- `-f` : follow log output(like watch in nodemon)
 
 
 3. exec
 
-    > docker exec [OPTION] <CONTAINER> <COMMAND>
+	> docker exec [OPTION] <CONTAINER> <COMMAND>
 
-    ex01: access to current container then execute one command
+	ex01: access to current container then execute one command
 
-    ```zsh
-    docker exec ws2 pwd #usr/local/appach2
-    ```
+	```zsh
+	docker exec ws2 pwd #usr/local/appach2
+	```
 
-    ex02: open interactive shell(`bash`, `sh` ou `zsh` if container has it) in current container
-    
-    ```zsh
-    docker exec -it ws2 bash
-    
-    root@27290926ed14:/usr/local/apache2# pwd
-    /usr/local/apache2
+	ex02: open interactive shell(`bash`, `sh` ou `zsh` if container has it) in current container
+	
+	```zsh
+	docker exec -it ws2 bash
+	
+	root@27290926ed14:/usr/local/apache2# pwd
+	/usr/local/apache2
 
-    ```
-    - `-i` : interactive, keep STDIN open even if not attached
-    - `-t` : Allocate a pseudo TTY
+	```
+	- `-i` : interactive, keep STDIN open even if not attached
+	- `-t` : Allocate a pseudo TTY
 
 4. start
 
-    > docker start <CONTAINER>
+	> docker start <CONTAINER>
 
 5. stop
 
-    > docker stop <CONTAINER>
+	> docker stop <CONTAINER>
 
 6. remove container
 
-    > docker rm <CONTAINER>
+	> docker rm <CONTAINER>
 
 
 7. remove image
 
-    > docker rmi <DOCKER_IMAGE>
+	> docker rmi <DOCKER_IMAGE>
 
 
 ### Dockerfile & build
@@ -184,6 +204,19 @@ docker run --name ws -p 8888:8000 web-server; # create/run container from docker
 
 
 ### ETC
+
+-Packages:
+
+   - nginx container:
+      - nginx
+      - openssl
+   - wordpress container:
+      - wordpress(maybe not directly 'apt-get install wordpress' but with curl...?)
+      - php-fpm(need php d'abord) => php version...?
+
+   - mariadb container :
+      - mariadb-server
+      - mariadb-client
 
 
 ### Reference
