@@ -54,13 +54,88 @@
 
 ## Program
 
-1.  S1
+### Packages
 
-	1-1. S1-1
+- wordpress container:
+	- wordpress(maybe not directly 'apt-get install wordpress' but with curl...?)
+	- php-fpm(need php d'abord) => php version...?
 
-	1-1-1. S1-1-1
+- nginx container:
+	- nginx
+	- openssl
 
-2.  S2
+- mariadb container :
+	- mariadb-server
+	- mariadb-client
+
+### Init Containers
+
+1. Mariadb
+
+	```bash
+	docker run --name mariadb -it \
+	-v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql \
+	-v $(pwd)/srcs/requirements/mariadb/conf:/tmp/conf \
+	-v $(pwd)/srcs/requirements/mariadb/tools:/tmp/tools \
+	--env-file $(pwd)/srcs/.env \
+	-p 3307:3307 \
+	debian
+	```
+	* 3306 port is in use in my mac => that's why i put 3307 temporally
+
+	1-1. install packages => `RUN`
+
+	```bash
+	# Remove old volume db
+	# but not need in Dockerfile, in debian:buster image mysql is not installed
+	rm -r /var/lib/mysql/* 2> /dev/null
+	# Install packages
+	apt-get update && apt-get install -y mariadb-server mariadb-client
+	```
+
+	1-2. init mariadb => `CMD` or `ENTRYPOINT` in Dockerfile...?
+
+
+	```bash
+	# Init mariadb
+	service mysql start;
+	
+	# create wordpress db
+	echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE" | mysql -u root;
+	# create a user with its pw
+	# '%' is whild card in mysql but do not use  who '*' use
+	echo "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'" | mysql -u root;
+	# accord all priv on wordpress db to user
+	echo "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE .* TO '$MYSQL_USER'@'%'" | mysql -u root;
+	# update privileges
+	echo "FLUSH PRIVILEGES" | mysql -u root;
+
+
+	service mysql stop
+
+	exec /usr/sbin/mysqld -u root
+	```
+
+	cf:
+	```sql
+	# see GRANTS for current user
+	SHOW GRANTS;
+	# see GRANTS for 'root_root'@'%'; 
+	SHOW GRANTS FOR 'root_root'@'%'; 
+	```
+
+	for test:
+	```bash
+	docker build -t mariadb ./srcs/requirements/mariadb
+	docker run --name mariadb -it --env-file $(pwd)/srcs/.env -p 3308:3308 mariadb
+	```
+
+
+
+2.  Nginx
+
+
+3.  Wordpress
 
 ## Theory
 
@@ -86,6 +161,11 @@
 
 	```zsh
 	docker run --name ws -p 8000:80 -v ~/Documents/42/inception/src:/usr/local/apache2/htdocs httpd
+	```
+
+
+	```
+	docker run --name nginx -it -v $(pwd)/srcs/requirements/nginx/conf:/etc/nginx debian
 	```
 	
 	- `--name <CONTAINER_NAME>` : define container name
@@ -204,19 +284,6 @@ docker run --name ws -p 8888:8000 web-server; # create/run container from docker
 
 
 ### ETC
-
-- Packages:
-
-   - nginx container:
-      - nginx
-      - openssl
-   - wordpress container:
-      - wordpress(maybe not directly 'apt-get install wordpress' but with curl...?)
-      - php-fpm(need php d'abord) => php version...?
-
-   - mariadb container :
-      - mariadb-server
-      - mariadb-client
 
 
 ### Reference
