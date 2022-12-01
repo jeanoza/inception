@@ -9,4 +9,5 @@ echo "FLUSH PRIVILEGES" | mysql -u root
 
 service mysql stop
 
-exec mysqld_safe
+# exec mysqld_safe
+exec mysqld -u root

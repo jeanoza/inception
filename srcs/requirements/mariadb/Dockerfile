@@ -7,4 +7,4 @@ COPY ./tools/init.sh /tmp
 
 # EXPOSE 3308
 
-ENTRYPOINT [ "/tmp/init.sh" ]
+# ENTRYPOINT [ "/tmp/init.sh" ]

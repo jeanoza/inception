@@ -121,13 +121,14 @@
 	# see GRANTS for current user
 	SHOW GRANTS;
 	# see GRANTS for 'root_root'@'%'; 
-	SHOW GRANTS FOR 'root_root'@'%'; 
+	SHOW GRANTS FOR 'kychoi'@'%'; 
 	```
 
 	for test:
 	```bash
 	docker build -t mariadb ./srcs/requirements/mariadb
-	docker run --name mariadb -it --env-file $(pwd)/srcs/.env -p 3308:3308 mariadb
+	docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 -v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql mariadb
+	docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 mariadb
 	```
 
 
@@ -232,6 +233,10 @@
 7. remove image
 
 	> docker rmi <DOCKER_IMAGE>
+
+8. system prune : Remove all unused containers, networks, images 
+
+	> docker system prune -f -a
 
 
 ### Dockerfile & build

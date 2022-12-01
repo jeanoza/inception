@@ -1,0 +1,2 @@
+1. Why doesn't work `service mysql start`?
+	- when mount volume with:  -v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql
