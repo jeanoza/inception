@@ -79,7 +79,7 @@
 	-v $(pwd)/srcs/requirements/mariadb/tools:/tmp/tools \
 	--env-file $(pwd)/srcs/.env \
 	-p 3307:3307 \
-	debian
+	debian:buster
 	```
 	* 3306 port is in use in my mac => that's why i put 3307 temporally
 
@@ -127,7 +127,7 @@
 	for test:
 	```bash
 	docker build -t mariadb ./srcs/requirements/mariadb
-	docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 -v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql mariadb
+	sudo docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 -v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql mariadb
 	docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 mariadb
 	```
 

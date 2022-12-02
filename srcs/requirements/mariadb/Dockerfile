@@ -1,7 +1,11 @@
 FROM debian:buster
 
 # on build(image state)
-RUN apt-get update && apt-get install -y mariadb-server mariadb-client
+RUN apt-get update 
+RUN apt-get install -y \
+			mariadb-server \
+			mariadb-client
+			
 COPY ./conf/my.cnf /etc/mysql
 COPY ./tools/init.sh /tmp
 
