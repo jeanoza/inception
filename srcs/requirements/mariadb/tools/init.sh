@@ -1,5 +1,4 @@
 #!/bin/bash
-
 service mysql start;
 
 echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE" | mysql -u root
@@ -9,5 +8,5 @@ echo "FLUSH PRIVILEGES" | mysql -u root
 
 service mysql stop
 
-# exec mysqld_safe
-exec mysqld -u root
+exec mysqld_safe
+# exec mysqld -u root
