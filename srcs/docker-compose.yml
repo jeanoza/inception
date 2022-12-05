@@ -17,4 +17,4 @@ volumes:
     driver_opts:
         type: 'none'
         o: 'bind'
-        device: '/system/volumes/data/Users/kyubongchoi'
+        device: ${MYSQL_VOLUME}
