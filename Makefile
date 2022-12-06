@@ -14,6 +14,7 @@ COMPOSE		=	docker-compose -f srcs/docker-compose.yml
 
 init_dir	:
 				mkdir -p $(DATA_PATH)/db_volume
+				mkdir -p $(DATA_PATH)/wp_volume
 
 build_up	:
 				sudo $(COMPOSE) up --build -d

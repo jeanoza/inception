@@ -9,6 +9,6 @@ COPY ./conf/my.cnf /etc/mysql
 COPY ./tools/init.sh /tmp
 
 # TODO: i use 3307 because my mac use already 3306 => 3306 in evaluation at 42
-EXPOSE 3307
+EXPOSE 3306
 
 ENTRYPOINT [ "/tmp/init.sh" ]

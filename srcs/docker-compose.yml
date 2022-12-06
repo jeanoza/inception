@@ -7,14 +7,53 @@ services:
     volumes:
       - db:/var/lib/mysql
     restart: always
-    env_file: .env
+    env_file:
+      - .env
+    expose:
+      - "3306"
+    tty: true
+    networks:
+      - inception
+  nginx:
+    image: debian:buster # to replace with build
+    container_name: nginx
+    restart: always
+    env_file:
+      - .env
     ports:
-      - "3307:3307"
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/html
+    tty: true
+    networks:
+      - inception
+  wordpress:
+    image: debian:buster # to replace with build
+    container_name: wordpress
+    restart: always
+    env_file:
+      - .env
+    expose:
+      - "9000"
+    volumes:
+      - wordpress:/var/www/html
+    tty: true
+    networks:
+      - inception
 
 volumes:
   db:
     driver: local
     driver_opts:
-        type: 'none'
-        o: 'bind'
-        device: ${MYSQL_VOLUME}
+      type: 'none'
+      o: 'bind'
+      device: ${MYSQL_VOLUME}
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${WORDPRESS_VOLUME}
+networks:
+  inception:
+    driver: bridge

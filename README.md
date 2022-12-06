@@ -74,7 +74,7 @@
 
 	```bash
 	docker run --name mariadb -it \
-	-v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql \
+	-v /Users/kyubongchoi/data/db_volume:/var/lib/mysql \
 	-v $(pwd)/srcs/requirements/mariadb/conf:/tmp/conf \
 	-v $(pwd)/srcs/requirements/mariadb/tools:/tmp/tools \
 	--env-file $(pwd)/srcs/.env \
@@ -135,9 +135,24 @@
 	docker system prune -fa --all --volumes
 	```
 
-
-
 2.  Nginx
+
+	```bash
+	docker run --name mariadb -it \
+	--env-file $(pwd)/srcs/.env \
+	nginx
+	```
+
+	1.1 install packages : nginx openssl
+
+	```bash
+	apt-get update && apt-get install -y  nginx openssl
+	```
+
+
+
+
+
 
 
 3.  Wordpress
