@@ -40,7 +40,6 @@ services:
     tty: true
     networks:
       - inception
-
 volumes:
   db:
     driver: local
