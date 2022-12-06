@@ -1,8 +1,0 @@
-1. Why doesn't work `service mysql start`?
-	- when mount volume with:  -v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql
-	- Problem is when `docker run` with `-v (host_dir):(cont_dir)`:
-		- docker doesn't copy files in /var/lib/mysql to host_dir
-		- but, create host_dir(empty) then link this empty folder to /var/lib/mysql
-		=> so, /var/lib/mysql become EMPTY!!
-
-	=> HOW TO FIX THIS PROBLEME??!

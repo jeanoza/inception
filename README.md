@@ -126,9 +126,13 @@
 
 	for test:
 	```bash
+	mkdir -p /Users/kyubongchoi/data/db_volume
 	docker build -t mariadb ./srcs/requirements/mariadb
-	sudo docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 -v $(pwd)/srcs/requirements/mariadb/db_vol:/var/lib/mysql mariadb
-	docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 mariadb
+	# it doesn't work beacause i don't know yet how to manage like driver_opts in docker-compose
+	sudo docker run -it --name mariadb --env-file $(pwd)/srcs/.env -p 3307:3307 -v /Users/kyubongchoi/data/db_volume:/var/lib/mysql mariadb
+
+	# remove all docker containers, images and volumes not used
+	docker system prune -fa --all --volumes
 	```
 
 
