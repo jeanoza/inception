@@ -1,5 +1,6 @@
 FROM debian:buster
 
+
 # install apt-get package to use
 RUN apt-get update && apt-get install -y \
 	php7.3 \
@@ -13,16 +14,21 @@ RUN apt-get update && apt-get install -y \
 	sendmail \
 	vim
 
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
+COPY ./tools/init.sh /tmp
+
 # install wordpress
-RUN wget https://wordpress.org/latest.tar.gz && tar -xvf latest.tar.gz
-RUN mkdir -p /var/www/html && mv /wordpress/* /var/www/html
-RUN chown -R www-data:www-data /var/www/html
+# RUN wget https://wordpress.org/latest.tar.gz && tar -xvf latest.tar.gz
+# RUN mkdir -p /var/www/html && mv /wordpress/* /var/www/html
+# RUN chown -R www-data:www-data /var/www/html
 
-RUN rm -r latest.tar.gz wordpress
-RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+# RUN rm -r latest.tar.gz wordpress
+# RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
-#modify wp config
+# #modify wp config
 
-#start php7.3-fpm
+# #start php7.3-fpm
+
+RUN bash /tmp/init.sh
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]

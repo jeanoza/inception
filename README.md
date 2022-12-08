@@ -145,8 +145,8 @@
 2. Wordpress
 
 	```bash
+	# install packages
 	apt-get update -y && \
-	apt-get upgrade -y && \
 	apt-get -y install \
 	php7.3 \
 	php-fpm \
@@ -159,14 +159,25 @@
 	sendmail \
 	vim
 
+	
+	# install wordpress
+	wget https://wordpress.org/latest.tar.gz
+	tar -xvf latest.tar.gz
+
 	# move wordpress files to /var/www/html
-	mv /usr/share/wordpress/* /var/www/html/
+	mv /wordpress/* /var/www/html/
+
+	# change owner for directory to use in wordpress
+	chown -R www-data:www-data /var/www/html
+
+	#remove inutile files
+	rm -r /wordpress latest.tar.gz
+
+	
 	# rename wp-config-sample.php to wp-config.php
 	mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
 	```
-
-
 
 	2.1. Modify wordpress config
 
