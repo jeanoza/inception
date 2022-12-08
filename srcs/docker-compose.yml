@@ -28,8 +28,8 @@ services:
     networks:
       - inception
   wordpress:
-    image: debian:buster # to replace with build
     container_name: wordpress
+    build: ./requirements/wordpress
     restart: always
     env_file:
       - .env
@@ -55,4 +55,3 @@ volumes:
       device: ${WORDPRESS_VOLUME}
 networks:
   inception:
-    driver: bridge

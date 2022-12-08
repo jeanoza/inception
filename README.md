@@ -54,6 +54,7 @@
 
 ## Program
 
+
 ### Packages
 
 - wordpress container:
@@ -135,19 +136,114 @@
 	docker system prune -fa --all --volumes
 	```
 
-2.  Nginx
+	```bash
+	# to get maraidb container's hostname to use in wordpress container
+	hostname -i
+	```
+	172.19.0.2
+
+2. Wordpress
 
 	```bash
-	docker run --name mariadb -it \
-	--env-file $(pwd)/srcs/.env \
-	nginx
+	apt-get update -y && \
+	apt-get upgrade -y && \
+	apt-get -y install \
+	php7.3 \
+	php-fpm \
+	php-cli \
+	wget \
+	curl \
+	php-mysql \
+	php-mbstring \
+	php-xml \
+	sendmail \
+	vim
+
+	# move wordpress files to /var/www/html
+	mv /usr/share/wordpress/* /var/www/html/
+	# rename wp-config-sample.php to wp-config.php
+	mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
 	```
 
-	1.1 install packages : nginx openssl
+
+
+	2.1. Modify wordpress config
+
+	vim /var/www/html/wp-config.php
+	```php
+	define('DB_NAME', 'wordpress_db') # to replace with .env
+	define('DB_USER', 'kychoi') # to replace with .env
+	define('DB_PASSWORD', 'Password') # to replace with .env
+	define('DB_HOST', '172.23.0.4') # to replace with .env
+	```
+
+	2.2. Modify php-fpm config
+
+	vim /etc/php/7.3/fpm/pool.d/www.conf
+	```cnf
+	listen = 0.0.0.0:9000
+
+	```
+
+	2.3 start php fpm
 
 	```bash
-	apt-get update && apt-get install -y  nginx openssl
+	service php7.3-fpm start
 	```
+
+
+
+3.  Nginx
+
+	3.0. install packages : nginx openssl vim
+
+	```bash
+	apt-get update -y && apt-get -y install nginx openssl vim
+	```
+
+	3.1. Create self-signed ssl
+
+	```bash
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/server_pkey.pem -out /etc/ssl/certs/server.crt
+	```
+
+	3.2. Modify default file
+
+	vim /etc/nginx/sites-available/default
+	```
+	server {
+		listen 443 ssl;
+		ssl_protocols  TLSv1.2 TLSv1.3;
+		
+		ssl_certificate /etc/ssl/certs/server.crt;
+		ssl_certificate_key /etc/ssl/private/server_pkey.pem;
+
+		root /var/www/html;
+
+		index index.php index.html index.htm;
+
+		server_name _;
+
+		location / {
+			try_files $uri $uri/ =404;
+		}
+
+		location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+			
+			# fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+			fastcgi_param SCRIPT_FILENAME /var/www/html/$fastcgi_script_name;
+			fastcgi_pass 172.25.0.2:9000;
+		}
+	}
+
+	```
+
+
+
+
+
 
 
 
@@ -312,3 +408,24 @@ docker run --name ws -p 8888:8000 web-server; # create/run container from docker
 
 ### Reference
 - [docker-compose by Egoing](https://www.youtube.com/watch?v=EK6iYRCIjYs "Egoing docker-compose class")
+
+
+#mysql
+172.24.0.2
+
+#wordpress
+172.24.0.3
+
+root@8b41a90ef8e8:/# apt-get update -y && \
+apt-get upgrade -y && \
+apt-get -y install \
+php7.3 \
+php-fpm \
+php-cli \
+wget \
+curl \
+php-mysql \
+php-mbstring \
+php-xml \
+sendmail \
+vim
