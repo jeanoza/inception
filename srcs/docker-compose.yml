@@ -9,12 +9,12 @@ services:
     restart: always
     env_file:
       - .env
-    expose:
-      - "3306"
     tty: true
     networks:
       - inception
   nginx:
+    depends_on:
+      - wordpress
     image: debian:buster # to replace with build
     container_name: nginx
     restart: always
@@ -27,14 +27,15 @@ services:
     tty: true
     networks:
       - inception
+    
   wordpress:
+    depends_on:
+      - mariadb
     container_name: wordpress
     build: ./requirements/wordpress
     restart: always
     env_file:
       - .env
-    expose:
-      - "9000"
     volumes:
       - wordpress:/var/www/html
     tty: true

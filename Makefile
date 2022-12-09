@@ -19,11 +19,23 @@ init_dir	:
 build_up	:
 				sudo $(COMPOSE) up --build -d
 
+
+#for debugging
+mariadb		:
+				$(COMPOSE) exec mariadb bash
+
+wordpress	:
+				$(COMPOSE) exec wordpress bash
+
+nginx		:
+				$(COMPOSE) exec nginx bash
+				
+
 # build		:
 # 				sudo $(COMPOSE) build
 
-# up			:
-# 				sudo $(COMPOSE) up
+up			:
+				$(COMPOSE) up
 
 all			:	init_dir build_up
 
@@ -31,7 +43,10 @@ clean		:
 				$(COMPOSE) down -v --rmi all --remove-orphans
 
 fclean		:	clean
+				docker system prune --volumes --all --force
 				rm -rf $(DATA_PATH)
+				docker network prune --force
+				docker image prune --force
 
 re			:	fclean all
 

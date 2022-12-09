@@ -6,29 +6,23 @@ RUN apt-get update && apt-get install -y \
 	php7.3 \
 	php-fpm \
 	php-cli \
-	wget \
 	curl \
 	php-mysql \
 	php-mbstring \
 	php-xml \
-	sendmail \
 	vim
+RUN apt-get install -y curl
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
 COPY ./tools/init.sh /tmp
 
-# install wordpress
-# RUN wget https://wordpress.org/latest.tar.gz && tar -xvf latest.tar.gz
-# RUN mkdir -p /var/www/html && mv /wordpress/* /var/www/html
-# RUN chown -R www-data:www-data /var/www/html
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN php wp-cli.phar --info
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
 
-# RUN rm -r latest.tar.gz wordpress
-# RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+RUN mkdir -p /var/www/html/wordpress
+RUN mkdir -p /run/php
 
-# #modify wp config
-
-# #start php7.3-fpm
-
-RUN bash /tmp/init.sh
-
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+WORKDIR /var/www/html/wordpress
+ENTRYPOINT ["sh", "/tmp/init.sh"]
