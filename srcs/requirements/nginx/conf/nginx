@@ -6,12 +6,12 @@ server {
 
         ssl_protocols  TLSv1.2 TLSv1.3;
         ssl_certificate /etc/ssl/certs/kychoi.crt;
-        ssl_certificate_key /etc/ssl/private/kychoi.pem;
+        ssl_certificate_key /etc/ssl/private/kychoi.key;
 
         root /var/www/html/wordpress;
         index index.php index.html index.htm;
 
-        server_name kychoi.42.fr;
+        server_name localhost kychoi.42.fr;
 
         location / {
                 try_files $uri $uri/ =404;

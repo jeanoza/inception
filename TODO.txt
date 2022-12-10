@@ -1,2 +1,9 @@
 1. nginx
-	- tweaks with html && css for main page
+
+	- verify certification at pc 42
+
+	- nginx file
+	- Dockerfile 
+	- paths actuel
+		/etc/ssl/certs/kychoi.crt;
+		/etc/ssl/private/kychoi.key;
