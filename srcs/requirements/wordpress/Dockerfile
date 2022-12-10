@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
 	php7.3 \
 	php-fpm \
 	php-cli \
-	curl \
 	php-mysql \
 	php-mbstring \
 	php-xml \

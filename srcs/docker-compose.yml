@@ -15,7 +15,7 @@ services:
   nginx:
     depends_on:
       - wordpress
-    image: debian:buster # to replace with build
+    build: ./requirements/nginx
     container_name: nginx
     restart: always
     env_file:

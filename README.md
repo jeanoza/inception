@@ -216,7 +216,10 @@
 	3.1. Create self-signed ssl
 
 	```bash
-	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/server_pkey.pem -out /etc/ssl/certs/server.crt
+	openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 \
+	-subj "/C=FR/ST=Paris/L=Paris/O=Ecole42/CN=kychoi.42.fr" \
+	-keyout /etc/ssl/private/kychoi.pem \
+	-out /etc/ssl/certs/kychoi.crt
 	```
 
 	3.2. Modify default file
@@ -224,45 +227,37 @@
 	vim /etc/nginx/sites-available/default
 	```
 	server {
-		listen 443 ssl;
-		ssl_protocols  TLSv1.2 TLSv1.3;
-		
-		ssl_certificate /etc/ssl/certs/server.crt;
-		ssl_certificate_key /etc/ssl/private/server_pkey.pem;
+        listen 443 ssl;
+        listen [::]:443 ssl;
 
-		root /var/www/html;
+        include  /etc/nginx/mime.types;
 
-		index index.php index.html index.htm;
+        ssl_protocols  TLSv1.2 TLSv1.3;
+        ssl_certificate /etc/ssl/certs/kychoi.crt;
+        ssl_certificate_key /etc/ssl/private/kychoi.pem;
 
-		server_name _;
+        root /var/www/html/wordpress;
+        index index.php index.html index.htm;
 
-		location / {
-			try_files $uri $uri/ =404;
-		}
+        server_name kychoi.42.fr;
 
-		location ~ \.php$ {
-			include snippets/fastcgi-php.conf;
-			
-			# fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-			fastcgi_param SCRIPT_FILENAME /var/www/html/$fastcgi_script_name;
-			fastcgi_pass 172.25.0.2:9000;
-		}
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                fastcgi_pass wordpress:9000;
+                fastcgi_index index.php;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+        }
 	}
 
 	```
 
 
-
-
-
-
-
-
-
-
-
-
-3.  Wordpress
 
 ## Theory
 
