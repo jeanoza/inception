@@ -1,9 +1,12 @@
 1. nginx
 
 	- verify certification at pc 42
+		- nginx file
+		- Dockerfile 
+		- paths actuel
+			/etc/ssl/certs/kychoi.crt;
+			/etc/ssl/private/kychoi.key;
 
-	- nginx file
-	- Dockerfile 
-	- paths actuel
-		/etc/ssl/certs/kychoi.crt;
-		/etc/ssl/private/kychoi.key;
+	- method to use domain in host pc : https://kychoi.42.fr ?
+
+	
