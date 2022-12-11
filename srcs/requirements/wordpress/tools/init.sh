@@ -1,8 +1,9 @@
 #!/bin/bash
 PROTECTION="/var/www/html/wordpress/.protection"
-wp --info
 
 if  [ ! -f "$PROTECTION" ]; then
+	# Show wp info
+	wp --info
 	# Download wordpress core
 	wp core download --allow-root
 	# Create wp-config.php

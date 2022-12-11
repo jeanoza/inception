@@ -19,24 +19,6 @@ init_dir	:
 build_up	:
 				sudo $(COMPOSE) up --build -d
 
-
-#for debugging
-mariadb		:
-				$(COMPOSE) exec mariadb bash
-
-wordpress	:
-				$(COMPOSE) exec wordpress bash
-
-nginx		:
-				$(COMPOSE) exec nginx bash
-				
-
-# build		:
-# 				sudo $(COMPOSE) build
-
-up			:
-				$(COMPOSE) up
-
 all			:	init_dir build_up
 
 clean		:
@@ -50,5 +32,17 @@ fclean		:	clean
 
 re			:	fclean all
 
-.PHONY		: 	init_dir # need or not...?
+
+#for debugging
+mariadb		:
+				$(COMPOSE) exec mariadb bash
+
+wordpress	:
+				$(COMPOSE) exec wordpress bash
+
+nginx		:
+				$(COMPOSE) exec nginx bash
+
+logs		:
+				$(COMPOSE) logs
 

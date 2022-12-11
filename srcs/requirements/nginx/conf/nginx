@@ -5,7 +5,7 @@ server {
         include  /etc/nginx/mime.types;
 
         ssl_protocols  TLSv1.2 TLSv1.3;
-        ssl_certificate /etc/ssl/certs/kychoi.crt;
+        ssl_certificate /etc/ssl/certs/kychoi.pem;
         ssl_certificate_key /etc/ssl/private/kychoi.key;
 
         root /var/www/html/wordpress;
