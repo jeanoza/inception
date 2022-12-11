@@ -414,24 +414,3 @@ docker run --name ws -p 8888:8000 web-server; # create/run container from docker
 
 ### Reference
 - [docker-compose by Egoing](https://www.youtube.com/watch?v=EK6iYRCIjYs "Egoing docker-compose class")
-
-
-#mysql
-172.24.0.2
-
-#wordpress
-172.24.0.3
-
-root@8b41a90ef8e8:/# apt-get update -y && \
-apt-get upgrade -y && \
-apt-get -y install \
-php7.3 \
-php-fpm \
-php-cli \
-wget \
-curl \
-php-mysql \
-php-mbstring \
-php-xml \
-sendmail \
-vim
