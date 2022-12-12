@@ -9,4 +9,11 @@
 
 	- method to use domain in host pc : https://kychoi.42.fr ?
 
-	
+2. mariadb
+
+	- trouble shooting
+		2022-12-12 23:47:05 [....] Stopping MariaDB database server: mysqld/usr/bin/mysqladmin: connect to server at 'localhost' failed
+		2022-12-12 23:47:05 error: 'Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)'
+
+	- how to manage infinity loop after alter root password
+		(ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'")
