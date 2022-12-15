@@ -32,7 +32,7 @@ fclean		:	clean
 				rm -rf $(DATA_PATH)
 				$(DOCKER) network prune --force
 				$(DOCKER) image prune --force
-				sudo sed '/kychoi/d' /etc/hosts >> /etc/hosts 
+				sudo sed '/kychoi/d' /etc/hosts > /etc/hosts 
 
 re			:	fclean all
 
