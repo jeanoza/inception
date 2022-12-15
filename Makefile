@@ -16,7 +16,7 @@ HOSTS_PATH	=	/etc/hosts
 init_dir	:
 				mkdir -p $(DATA_PATH)/db_volume
 				mkdir -p $(DATA_PATH)/wp_volume
-				chmod 777 $(HOSTS_PATH)
+				sudo chmod 777 $(HOSTS_PATH)
 				echo "127.0.0.1 kychoi.42.fr" >> $(HOSTS_PATH)
 
 build_up	:
