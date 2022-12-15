@@ -16,8 +16,8 @@ HOSTS_PATH	=	/etc/hosts
 init_dir	:
 				mkdir -p $(DATA_PATH)/db_volume
 				mkdir -p $(DATA_PATH)/wp_volume
-#				chmod 777 $(HOSTS_PATH)
-#				echo "127.0.0.1 kychoi.42.fr" >> $(HOSTS_PATH)
+				chmod 777 $(HOSTS_PATH)
+				echo "127.0.0.1 kychoi.42.fr" >> $(HOSTS_PATH)
 
 build_up	:
 				$(COMPOSE) up --build -d
@@ -32,7 +32,7 @@ fclean		:	clean
 				rm -rf $(DATA_PATH)
 				$(DOCKER) network prune --force
 				$(DOCKER) image prune --force
-#				sudo sed '/kychoi/d' /etc/hosts >> /etc/hosts   
+				sudo sed '/kychoi/d' /etc/hosts >> /etc/hosts 
 
 re			:	fclean all
 
