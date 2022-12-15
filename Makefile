@@ -7,9 +7,9 @@ else
 	DATA_PATH	:=	/home/kychoi/data
 endif
 
-DOCKER		=	docker
+DOCKER		=	sudo docker
 
-COMPOSE		=	docker-compose -f srcs/docker-compose.yml
+COMPOSE		=	sudo docker-compose -f srcs/docker-compose.yml
 
 
 init_dir	:
@@ -17,7 +17,7 @@ init_dir	:
 				mkdir -p $(DATA_PATH)/wp_volume
 
 build_up	:
-				sudo $(COMPOSE) up --build -d
+				$(COMPOSE) up --build -d
 
 all			:	init_dir build_up
 
@@ -25,10 +25,10 @@ clean		:
 				$(COMPOSE) down -v --rmi all --remove-orphans
 
 fclean		:	clean
-				docker system prune --volumes --all --force
+				$(Docker) system prune --volumes --all --force
 				rm -rf $(DATA_PATH)
-				docker network prune --force
-				docker image prune --force
+				$(Docker) network prune --force
+				$(Docker) image prune --force
 
 re			:	fclean all
 
