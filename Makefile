@@ -29,7 +29,7 @@ clean		:
 
 fclean		:	clean
 				$(DOCKER) system prune --volumes --all --force
-				rm -rf $(DATA_PATH)
+				sudo rm -rf $(DATA_PATH)
 				$(DOCKER) network prune --force
 				$(DOCKER) image prune --force
 				sudo sed '/kychoi/d' /etc/hosts > /etc/hosts 
