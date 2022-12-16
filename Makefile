@@ -9,7 +9,7 @@ endif
 
 DOCKER		=	sudo docker
 
-COMPOSE		=	sudo docker-compose -f srcs/docker-compose.yml
+COMPOSE		=	sudo docker compose -f srcs/docker-compose.yml
 
 HOSTS_PATH	=	/etc/hosts
 
