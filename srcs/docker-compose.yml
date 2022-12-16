@@ -2,6 +2,7 @@ version: '3'
 
 services:
   mariadb:
+    image: mariadb
     container_name: mariadb
     build: ./requirements/mariadb
     volumes:
@@ -13,6 +14,7 @@ services:
     networks:
       - inception
   nginx:
+    image: nginx
     depends_on:
       - wordpress
     build: ./requirements/nginx
@@ -29,6 +31,7 @@ services:
       - inception
     
   wordpress:
+    image: wordpress
     depends_on:
       - mariadb
     container_name: wordpress
