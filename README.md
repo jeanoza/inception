@@ -414,3 +414,22 @@ docker run --name ws -p 8888:8000 web-server; # create/run container from docker
 
 ### Reference
 - [docker-compose by Egoing](https://www.youtube.com/watch?v=EK6iYRCIjYs "Egoing docker-compose class")
+
+
+### TO TEST:
+```bash
+#mysql connect root without password
+sudo docker compose -f ./srcs/docker-compose.yml exec -it mariadb mysql -uroot
+
+#mysql connect root with password
+sudo docker compose -f ./srcs/docker-compose.yml exec -it mariadb mysql -uroot -pRootPassword
+
+#mysql connect admin user without password
+sudo docker compose -f ./srcs/docker-compose.yml exec -it mariadb mysql -ukychoi
+
+#mysql connect admin user with password
+sudo docker compose -f ./srcs/docker-compose.yml exec -it mariadb mysql -ukychoi -pPassword
+
+#nginx port 80 test
+curl http://kychoi.42.fr:80
+```
