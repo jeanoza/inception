@@ -10,6 +10,8 @@ services:
     restart: always
     env_file:
       - .env
+    expose:
+      - "3306"
     tty: true
     networks:
       - inception
@@ -39,6 +41,8 @@ services:
     restart: always
     env_file:
       - .env
+    expose:
+      - "9000"
     volumes:
       - wordpress:/var/www/html
     tty: true
